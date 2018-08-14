@@ -1,48 +1,13 @@
 import warnings
-warnings.filterwarnings('ignore', message='numpy.dtype size changed') # fix warnings bug
 import pandas as pd
 import plotly
 import topojson # pip install git+https://github.com/sgillies/topojson.git
 import requests
 import json
 
-# limits = [(0,2),(3,10),(11,20),(21,50),(50,3000)]
-# colors = ["rgb(0,116,217)","rgb(255,65,54)","rgb(133,20,75)","rgb(255,133,27)","lightgrey"]
-# cities = []
-# scale = 5000
+# fix warnings bug
+warnings.filterwarnings('ignore', message='numpy.dtype size changed') 
 
-# for i in range(len(limits)):
-#     lim = limits[i]
-#     df_sub = df[lim[0]:lim[1]]
-#     city = dict(
-#         type = 'scattergeo',
-#         locationmode = 'USA-states',
-#         lon = df_sub['lon'],
-#         lat = df_sub['lat'],
-#         text = df_sub['text'],
-#         marker = dict(
-#             size = df_sub['pop']/scale,
-#             color = colors[i],
-#             line = dict(width=0.5, color='rgb(40,40,40)'),
-#             sizemode = 'area'
-#         ),
-#         name = '{0} - {1}'.format(lim[0],lim[1]) )
-#     cities.append(city)
-
-# layout = dict(
-#         title = '2014 US city populations<br>(Click legend to toggle traces)',
-#         showlegend = True,
-#         geo = dict(
-#             scope='world',
-#             projection=dict( type='albers usa' ),
-#             showland = True,
-#             landcolor = 'rgb(217, 217, 217)',
-#             subunitwidth=1,
-#             countrywidth=1,
-#             subunitcolor="rgb(255, 255, 255)",
-#             countrycolor="rgb(255, 255, 255)"
-#         ),
-#     )
 
 # Russia example:
 
@@ -52,28 +17,26 @@ def get_geojson_data(filename):
         geoJSON = json.loads(data)
         return geoJSON
 
-def get_topojson_data(url):
-    r = requests.get('https://raw.githubusercontent.com/zarkzork/russia-topojson/master/russia.json')
-    if r.status_code != 200:
-        print('Can not read topojson from url') 
-        exit()
+TOPOJSON_URL = 'https://raw.githubusercontent.com/zarkzork/russia-topojson/master/russia.json'
 
-    return r.json()
+def get_topojson_data(url=TOPOJSON_URL):
+    r = requests.get(url)
+    if r.status_code == 200:
+        return r.json()        
+    raise Exception(f'Cannot read topojson from {url}') 
+
 
 def topo2geo(topoJSON):
     scale = topoJSON['transform']['scale']
     translation = topoJSON['transform']['translate']
     topo_features = topoJSON['objects']['subunits']['geometries']
-
     # convert topojson to geojson
     geoJSON = dict(type='FeatureCollection', features=[])
     for k, tfeature in enumerate(topo_features):
-        # print(k, tfeature)
         geo_feature = dict(id=k, type='Feature')
         geo_feature['properties'] = tfeature['properties']
         geo_feature['geometry'] = topojson.geometry(tfeature, topoJSON['arcs'], scale, translation)
         geoJSON['features'].append(geo_feature)
-
     return geoJSON
 
 def get_geo_points(geoJSON):
@@ -82,14 +45,12 @@ def get_geo_points(geoJSON):
         if feature['geometry']['type'] == 'Polygon':
             pts.extend(feature['geometry']['coordinates'][0])
             pts.append([None, None])
-
         elif feature['geometry']['type'] == 'MultiPolygon':
             for polyg in feature['geometry']['coordinates']:
                 pts.extend(polyg[0])
                 pts.append([None, None])
         else:
             print('Error: geometry type `{}` irrelevant for map'.format(feature['geometry']['type']))
-
     return pts
 
 
