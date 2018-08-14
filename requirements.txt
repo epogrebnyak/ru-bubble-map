@@ -1,0 +1,4 @@
+git+https://github.com/sgillies/topojson.git
+pandas
+requests
+plotly
