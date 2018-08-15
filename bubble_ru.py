@@ -97,10 +97,14 @@ data.append(city)
 layout = dict(
     title = 'City populations',
     showlegend = True,
+    autosize = False,
+    width = 1200,
+    height = 800,
+    # center = dict(lon=106, lat=64),
     geo = dict(
         scope = 'world',
-        #lonaxis = dict(range = [30.0, 190.0]),
-        #lataxis = dict(range = [30.0, 80.0]),
+        lonaxis = dict(range = [30.0, 200.0]),
+        lataxis = dict(range = [30.0, 80.0]),
         projection = dict(type = 'miller'),
         showland = True,
         landcolor = 'rgb(217, 217, 217)',
