@@ -113,7 +113,7 @@ layout = dict(
 )
 
 fig = dict(data=data, layout=layout)
-#lotly.offline.plot(fig, validate=False, filename='world.html')
+plotly.offline.plot(fig, validate=False, filename='russia.html')
 
 # import plotly.plotly as py
 # plotly.plotly.iplot(fig, validate=False, filename='world.html')
