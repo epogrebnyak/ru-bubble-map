@@ -1,14 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import json
 import warnings
 
 import plotly
 import topojson 
 import requests
-
-
-# fix warnings bug
-warnings.filterwarnings('ignore', message='numpy.dtype size changed') 
-
 
 # Russia example:
 
@@ -21,10 +18,10 @@ def get_json_remote(url):
     r = requests.get(url)
     if r.status_code == 200:
         return r.json()        
-    raise Exception(f'Cannot read topojson from {url}') 
+    raise Exception('Cannot read topojson from {url}'.format(url))
 
 # FIXME: есть какие-то ссылки на алгоритм, откуда он берется? какие есть альтернативы?
-def topo2geo(topoJSON: dict):
+def topo2geo(topoJSON: dict) -> dict:
     scale = topoJSON['transform']['scale']
     translation = topoJSON['transform']['translate']
     topo_features = topoJSON['objects']['subunits']['geometries']
@@ -38,7 +35,7 @@ def topo2geo(topoJSON: dict):
     return geoJSON
 
 # FIXME: тот же вопрос
-def get_geo_points(geoJSON: dict):
+def get_geo_points(geoJSON: dict) -> list:
     pts = []
     for feature in geoJSON['features']:
         if feature['geometry']['type'] == 'Polygon':
@@ -107,16 +104,16 @@ layout = dict(
         # projection = dict(type = 'Mercator'),
         # projection = dict(type = 'azimuthal equal area'),
         # projection = dict(type = 'kavrayskiy7'),
-# QUESTION: вопрос откуда plotly понимает эту проектцию, если она не в списке разрешенных?         
-        projection = dict(type = 'albers siberia'),
-        #projection = dict(type = 'albers europe'),
+        # QUESTION: вопрос откуда plotly понимает эту проектцию, если она не в списке разрешенных?   
+        # projection = dict(type = 'albers siberia'),
+        projection = dict(type = 'azimuthal equidistant'),
         showland = True,
         landcolor = 'rgb(217, 217, 217)',
-        subunitwidth=1,
-        countrywidth=1,
+        subunitwidth = 1,
+        countrywidth = 1,
         subunitcolor = "rgb(255, 255, 255)",
         countrycolor = "rgb(255, 255, 255)",
-        # center = dict(ion=37 + 37/60 + 4/(60*60), lat=55 + 45/60 + 21/(60*60)),
+        center = dict(lon=106, lat=64),
     ),
 )
 
@@ -124,3 +121,12 @@ fig = dict(data=data, layout=layout)
 plotly.offline.plot(fig, validate=False, filename='world.html')
 
 # TODO: world.html неверно ограничивает страну + отрывает Камчатку
+
+'''
+projections:
+
+"equirectangular" | "mercator" | "orthographic" | "natural earth" | "kavrayskiy7" | "miller" | 
+"robinson" | "eckert4" | "azimuthal equal area" | "azimuthal equidistant" | "conic equal area" | 
+"conic conformal" | "conic equidistant" | "gnomonic" | "stereographic" | "mollweide" | "hammer" | 
+"transverse mercator" | "albers usa" | "winkel tripel" | "aitoff" | "sinusoidal"
+'''
