@@ -102,11 +102,9 @@ layout = dict(
         lonaxis = dict(range = [30.0, 190.0]),
         lataxis = dict(range = [30.0, 80.0]),
         # projection = dict(type = 'Mercator'),
-        # projection = dict(type = 'azimuthal equal area'),
-        # projection = dict(type = 'kavrayskiy7'),
         # QUESTION: вопрос откуда plotly понимает эту проектцию, если она не в списке разрешенных?   
         # projection = dict(type = 'albers siberia'),
-        projection = dict(type = 'azimuthal equidistant'),
+        projection = dict(type = 'miller'),
         showland = True,
         landcolor = 'rgb(217, 217, 217)',
         subunitwidth = 1,
