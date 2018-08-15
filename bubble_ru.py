@@ -1,13 +1,15 @@
-# -*- coding: utf-8 -*-
+"""Plot Russia bubble map with plotly.
+
+Similar to https://plot.ly/python/bubble-maps/
+
+Has functions for topojson/geojson conversions.
+
+"""
 
 import json
-import warnings
-
 import plotly
 import topojson 
 import requests
-
-# Russia example:
 
 def get_json_local(filename):
     with open(filename) as json_file:
@@ -131,7 +133,7 @@ plotly.offline.plot(fig, validate=False, filename='russia.html')
 #If the visualization you're using aggregates points (e.g., box plot, histogram, etc.) you can disregard this warning.
 
 
-# TODO: world.html неверно ограничивает страну + отрывает Камчатку
+# WONTFIX: world.html неверно ограничивает страну + отрывает Камчатку
 
 '''
 projections:
@@ -141,3 +143,17 @@ projections:
 "conic conformal" | "conic equidistant" | "gnomonic" | "stereographic" | "mollweide" | "hammer" | 
 "transverse mercator" | "albers usa" | "winkel tripel" | "aitoff" | "sinusoidal"
 '''
+
+### 1. FIXME: есть какие-то ссылки на алгоритм, откуда он берется? какие есть альтернативы?
+#
+#Алгоритм взят полностью из статьи приведенной в конце файла с примером: https://plot.ly/~empet/14397/plotly-plot-of-a-map-from-data-available/#/
+#К сожалению я не нашел для python актуальных модулей, по этому для конвертации topojson в geojson правильней всего использовать модуль для node https://github.com/topojson/topojson 
+#
+### 2. QUESTION: вопрос откуда plotly понимает эту проекцию, если она не в списке разрешенных?
+#
+#Было предположение, что раз есть `albers usa`, то может быть и `albers siberia`. Ошибок при интерпретации нет, но судя по всему при таком значении используется дефолтная проекция вроде Mercator.
+#
+### 3. world.html неверно ограничивает страну + отрывает Камчатку
+#	
+#Дело в неправильном выборе масштаба и центровке карты, из-за сильного сдвига вправо камчатка отрывается и вылазит слева. Я сделал коммит где задал координаты центровки карты, это должно помочь, но нужно проверить на большом экране.
+
