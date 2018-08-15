@@ -124,7 +124,7 @@ fig = dict(data=data, layout=layout)
 #(3) Use matplotlib
 #(4) See if you can create your visualization with fewer data points
 
-If the visualization you're using aggregates points (e.g., box plot, histogram, etc.) you can disregard this warning.
+#If the visualization you're using aggregates points (e.g., box plot, histogram, etc.) you can disregard this warning.
 
 
 # TODO: world.html неверно ограничивает страну + отрывает Камчатку
