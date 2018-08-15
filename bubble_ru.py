@@ -99,11 +99,8 @@ layout = dict(
     showlegend = True,
     geo = dict(
         scope = 'world',
-        lonaxis = dict(range = [30.0, 190.0]),
-        lataxis = dict(range = [30.0, 80.0]),
-        # projection = dict(type = 'Mercator'),
-        # QUESTION: вопрос откуда plotly понимает эту проектцию, если она не в списке разрешенных?   
-        # projection = dict(type = 'albers siberia'),
+        #lonaxis = dict(range = [30.0, 190.0]),
+        #lataxis = dict(range = [30.0, 80.0]),
         projection = dict(type = 'miller'),
         showland = True,
         landcolor = 'rgb(217, 217, 217)',
@@ -116,7 +113,19 @@ layout = dict(
 )
 
 fig = dict(data=data, layout=layout)
-plotly.offline.plot(fig, validate=False, filename='world.html')
+#lotly.offline.plot(fig, validate=False, filename='world.html')
+
+# import plotly.plotly as py
+# plotly.plotly.iplot(fig, validate=False, filename='world.html')
+
+#Woah there! Look at all those points! Due to browser limitations, the Plotly SVG drawing functions have a hard time graphing more than 500k data points for line charts, or 40k points for other types of charts. Here are some suggestions:
+#(1) Use the `plotly.graph_objs.Scattergl` trace object to generate a WebGl graph.
+#(2) Trying using the image API to return an image instead of a graph URL
+#(3) Use matplotlib
+#(4) See if you can create your visualization with fewer data points
+
+If the visualization you're using aggregates points (e.g., box plot, histogram, etc.) you can disregard this warning.
+
 
 # TODO: world.html неверно ограничивает страну + отрывает Камчатку
 
