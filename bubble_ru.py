@@ -5,7 +5,7 @@ Similar to https://plot.ly/python/bubble-maps/
 Has functions for topojson/geojson conversions.
 
 """
-
+import os
 import json
 import plotly
 import topojson 
@@ -54,11 +54,12 @@ def get_geo_points(geoJSON: dict) -> list:
 
 
 TOPOJSON_URL = 'https://raw.githubusercontent.com/zarkzork/russia-topojson/master/russia.json'
+CRIMEA_JSON_PATH = os.path.join('data', 'crimea_9sr.json')
 # get from url
 topoJSON = get_json_remote(TOPOJSON_URL) 
 # convert topoJSON to geoJSON
 geoJSON = topo2geo(topoJSON) 
-crimea_geoJSON = get_json_local('./crimea_9sr.json') # get crimea points
+crimea_geoJSON = get_json_local(CRIMEA_JSON_PATH)
 
 # main Russia geo points
 pts = get_geo_points(geoJSON) 
@@ -118,8 +119,10 @@ layout = dict(
     ),
 )
 
+
+OUT_HTML = os.path.join('output', 'russia.html')
 fig = dict(data=data, layout=layout)
-plotly.offline.plot(fig, validate=False, filename='russia.html')
+plotly.offline.plot(fig, validate=False, filename=OUT_HTML)
 
 # import plotly.plotly as py
 # plotly.plotly.iplot(fig, validate=False, filename='world.html')

@@ -1,4 +1,5 @@
-﻿import pandas as pd
+﻿import os
+import pandas as pd
 import plotly
 
 
@@ -46,4 +47,5 @@ layout = dict(
     )
 
 fig = dict( data=cities, layout=layout )
-plotly.offline.plot( fig, validate=False, filename='d3-bubble-map-populations.html' )
+out_html = os.path.join('output', 'd3-bubble-map-populations.html')
+plotly.offline.plot( fig, validate=False, filename=out_html )
