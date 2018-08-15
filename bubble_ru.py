@@ -97,7 +97,7 @@ data.append(city)
 layout = dict(
     title = 'City populations',
     showlegend = True,
-    autosize = False,
+    # autosize = False,
     width = 1200,
     height = 800,
     # center = dict(lon=106, lat=64),
