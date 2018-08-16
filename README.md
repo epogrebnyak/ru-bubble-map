@@ -6,8 +6,9 @@ Objectves
 
 1. Draw map of Russia with administrative borders in a conventional projection
 2. Add cities as circles, circle size proportional to city population 
-3. Collect sources of economic locational data (cellular network use, power consumption, transport, illumination, etc) 
-   and ideas about economic modelling and forecasting using such data 
+3. Collect sources and uses of economic locational data (cellular network use, 
+   power consumption, transport, illumination, etc) 
+
    
 Steps
 =====   
@@ -18,8 +19,28 @@ Steps
 - Maintain list of data sources used 
 - Make reading list of useful GIS-related links 
 
+Mindmap
+=======
+
+Bits of GIS wisdom accululated so far:
+
+- drawings are either JavaScript-based (bokeh, plotly, Altair) or raster-based (matplotlib), Al
+- js libraries usually look smoother, but there is some ambiguity on how they render, saving to file is tricky
+- Earth is an ellipsoid, unwrapping it to flat map requires a choice of projection
+- you need a background picture of a map and some poligons for the administritive map
+- what is the difference between topojson and geojson?
+
+
+
 Links
 =====
+
+GIS tutorials
+-------------
+
+
+Other
+-----
 
 - https://toster.ru/q/328285
 - https://github.com/zarkzork/russia-topojson/blob/master/russia.json
