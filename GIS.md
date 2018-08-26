@@ -29,4 +29,10 @@
 - https://gisinfo.ru/classifiers/classifiers.htm#osm
 - http://nextgis.ru/projects/
 
+---------------
+
+![default](https://user-images.githubusercontent.com/9265326/36834067-aa30c58e-1d42-11e8-9cb2-b38019a3352b.png)
+
+https://www.data-imaginist.com/2017/ggraph-introduction-layouts/
+
 
